@@ -1846,7 +1846,7 @@
       "level": 1
     },
     {
-      "count": 2,
+      "count": 4,
       "date": "2026-09-04",
       "level": 1
     }
@@ -1864,8 +1864,8 @@
     "active_days": 122,
     "active_days_last60": 42,
     "best_day": 100,
-    "last60": 619,
-    "year": 2239
+    "last60": 621,
+    "year": 2241
   },
   "username": "valentinogalfre"
 }
