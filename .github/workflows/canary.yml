@@ -80,11 +80,21 @@ jobs:
           set -euo pipefail
           base="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/main"
           for f in hero.svg contrib-heatmap.svg; do
-            read -r code type size < <(
-              curl -sSL -o /dev/null -w '%{http_code} %{content_type} %{size_download}' "$base/$f"
-            )
+            # Deliberately not `read < <(curl ...)`: curl's -w output has no
+            # trailing newline, so read returns non-zero at EOF and set -e kills
+            # the step before it can report anything.
+            out=$(curl -sSL -o /dev/null \
+                    -w '%{http_code} %{content_type} %{size_download}' "$base/$f")
+            code=${out%% *}
+            rest=${out#* }
+            type=${rest%% *}
+            size=${rest##* }
             echo "$f -> $code $type $size bytes"
             [ "$code" = "200" ] || { echo "::error::$f returned $code"; exit 1; }
+            case "$type" in
+              image/svg+xml*) ;;
+              *) echo "::error::$f served as $type, not image/svg+xml"; exit 1 ;;
+            esac
             [ "$size" -gt 1500 ] || { echo "::error::$f is only $size bytes"; exit 1; }
           done
 
