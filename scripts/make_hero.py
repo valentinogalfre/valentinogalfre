@@ -20,10 +20,22 @@ page, so a dark-tuned card is unreadable in light theme, and prefers-color-
 scheme inside an <img>-embedded SVG never reaches Safari at all. Painting the
 card makes the reader's theme irrelevant.
 
-The animation is one short fade that settles and stops. The base state of the
-document is the finished frame, so a renderer with no animation engine (the
-VS Code preview, OG-card generators, PDF export, resvg, librsvg) shows the card
-rather than an empty panel.
+There is no animation, and that is a measured decision rather than a stylistic
+one. Tested on the live profile in Chrome: an SVG loaded through <img> is
+rendered at t=0 and its timeline never advances. Neither mechanism survives it.
+
+  - CSS @keyframes with `animation-fill-mode: both` pins every element at the
+    0% frame. With a fade-in that is opacity 0, so the card renders completely
+    blank -- background and divider only. This was published and confirmed
+    broken before being removed.
+  - SMIL is no better: a `<set>` with begin="0s" applies its hiding value and
+    the `<animate>` that should restore it never runs.
+
+So a reveal effect here is not merely ineffective, it is destructive: both
+mechanisms apply their initial hidden state and never recover from it. The
+widely repeated claim that CSS animation works inside an <img>-embedded SVG on
+GitHub does not hold, and the profile READMEs built on it are showing empty
+panels to everyone.
 """
 from __future__ import annotations
 
@@ -35,7 +47,7 @@ DATA = ROOT / "data" / "contributions.json"
 OUT = ROOT / "hero.svg"
 
 NAME = "Valentino Galfré"
-ROLE = "Backend & automation developer"
+ROLE = "Full-stack developer · freelance"
 
 W = 880
 PAD = 28
@@ -56,7 +68,6 @@ ACCENT = "#3fb950"
 FONT = ("ui-monospace, SFMono-Regular, Menlo, Consolas, "
         "'DejaVu Sans Mono', monospace")
 
-STEP = 0.028
 
 
 def esc(s: str) -> str:
@@ -84,10 +95,12 @@ def rows() -> list[tuple[str, list[str]]]:
         year.append(f"~{share}% of them in private client repos")
 
     return [
+        ("BUILDS", ["Web apps, automations and WhatsApp",
+                    "bots for real, paying clients"]),
         ("STACK", ["TypeScript · Node · Python · Next.js",
                    "Postgres · n8n · Flutter · llama.cpp"]),
         ("FOCUS", ["Local-first AI · OCR→LLM pipelines",
-                   "WhatsApp, CRM and third-party API glue"]),
+                   "CRM and third-party API integration"]),
         ("SHIPPED", ["cotejo — on-device invoice reconciler",
                      "Vector — WhatsApp sales agent, in production",
                      "Canva pipeline — content automation"]),
@@ -98,14 +111,10 @@ def rows() -> list[tuple[str, list[str]]]:
 def main() -> None:
     data = rows()
     p: list[str] = []
-    n = 0
 
     def line(**kw: str) -> str:
-        nonlocal n
-        delay = n * STEP
-        n += 1
         attrs = " ".join(f'{k.replace("_", "-")}="{v}"' for k, v in kw.items())
-        return f'<text class="l" {attrs} style="animation-delay:{delay:.3f}s">'
+        return f"<text {attrs}>"
 
     # ── right column height drives the panel ──────────────────────────────
     body_top = HEAD_H + 30
@@ -118,7 +127,6 @@ def main() -> None:
                     line(x=str(COL_X), y=f"{y}", fill=LABEL, font_size="11.5",
                          font_weight="600") + esc(label) + "</text>"
                 )
-                n -= 1  # label and its first value share one delay
             right.append(
                 line(x=str(COL_X + LABEL_W), y=f"{y}", fill=TEXT,
                      font_size="12.5") + esc(text) + "</text>"
@@ -131,21 +139,13 @@ def main() -> None:
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
         f'viewBox="0 0 {W} {H}" role="img" font-family="{FONT}">'
     )
-    p.append(
-        "<style>"
-        "@keyframes rise{from{opacity:0;transform:translateY(3px)}"
-        "to{opacity:1;transform:translateY(0)}}"
-        ".l{animation:rise .45s ease-out both}"
-        "@media (prefers-reduced-motion:reduce){.l{animation:none}}"
-        "</style>"
-    )
     p.append(f'<rect width="{W}" height="{H}" rx="12" fill="{BG}"/>')
     p.append(
         f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="11.5" '
         f'fill="none" stroke="{FRAME}"/>'
     )
     p.append(
-        f'<text class="l" x="{PAD}" y="26" fill="{DIM}" font-size="12">'
+        f'<text x="{PAD}" y="26" fill="{DIM}" font-size="12">'
         f'valentino@galfredev:~$ <tspan fill="{TEXT}">whoami</tspan></text>'
     )
     p.append(f'<line x1="0" y1="{HEAD_H}" x2="{W}" y2="{HEAD_H}" stroke="{FRAME}"/>')
@@ -153,7 +153,6 @@ def main() -> None:
              f'y2="{H - 20}" stroke="{FRAME}"/>')
 
     # ── left column: who, where, and how to reach him ─────────────────────
-    n = 0
     ly = body_top + 4
     p.append(line(x=str(PAD), y=f"{ly}", fill=INK, font_size="19",
                   font_weight="600") + esc(NAME) + "</text>")
@@ -163,8 +162,7 @@ def main() -> None:
     ly += 30
     for text in ("Córdoba, Argentina · UTC−3",
                  "Works in English and Spanish",
-                 "Open to remote backend and",
-                 "automation work"):
+                 "Open to freelance and remote work"):
         p.append(line(x=str(PAD), y=f"{ly}", fill=DIM, font_size="12")
                  + esc(text) + "</text>")
         ly += LINE

@@ -4,12 +4,12 @@ Render data/contributions.json as contrib-heatmap.svg.
 
 Three deliberate departures from the usual profile-README heatmap:
 
-1. Fail-open. The base state of every cell is the finished frame. The reveal
-   lives only in an @keyframes rule, which non-animating renderers (librsvg,
-   resvg, VS Code's preview, OG-card generators, PDF export) ignore -- so they
-   show the full graph instead of a blank panel. Putting opacity:0 on the base
-   rule, the common pattern, makes the artwork invisible everywhere animation
-   does not run.
+1. No animation at all. Verified on the live profile in Chrome: an SVG loaded
+   through <img> is painted at t=0 and its timeline never advances. CSS
+   @keyframes with fill-mode `both` therefore pins every cell at the 0% frame,
+   and SMIL's `<set begin="0s">` does the same -- in both cases a fade-in
+   renders as a permanently empty panel. The reveal effect every profile README
+   of this kind advertises does not work; it just hides the graph.
 
 2. An opaque painted card. Transparent backgrounds inherit the reader's page,
    so a dark-tuned graph is unreadable in light theme, and prefers-color-scheme
@@ -48,8 +48,6 @@ SCALE = ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"]
 FONT = ("ui-monospace, SFMono-Regular, Menlo, Consolas, "
         "'DejaVu Sans Mono', monospace")
 
-DUR = 0.42            # per-cell fade
-STEP = 0.0085         # per-column stagger -> ~0.9s total, then still
 
 
 def esc(s: str) -> str:
@@ -86,25 +84,11 @@ def main() -> None:
     cells = layout(data["days"])
     t, streak = data["totals"], data["streak"]
 
-    # Start the stagger where the data starts, so the reveal does not spend its
-    # first half second animating an empty stretch of calendar.
-    active_cols = [c["col"] for c in cells if c["count"] > 0]
-    first_active = min(active_cols) if active_cols else 0
 
     p: list[str] = []
     p.append(
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
         f'viewBox="0 0 {W} {H}" role="img" font-family="{FONT}">'
-    )
-    p.append(
-        "<style>"
-        f"@keyframes cell{{from{{opacity:0}}to{{opacity:1}}}}"
-        f".d{{animation:cell {DUR}s ease-out both}}"
-        f"@keyframes line{{from{{opacity:0}}to{{opacity:1}}}}"
-        f".t{{animation:line .5s ease-out both}}"
-        "@media (prefers-reduced-motion:reduce){"
-        ".d,.t{animation:none}}"
-        "</style>"
     )
 
     # card
@@ -116,7 +100,7 @@ def main() -> None:
 
     # title
     p.append(
-        f'<text class="t" x="{PAD_X}" y="26" fill="{TEXT}" font-size="12">'
+        f'<text x="{PAD_X}" y="26" fill="{TEXT}" font-size="12">'
         f'valentino@galfredev:~$ <tspan fill="{TEXT_HI}">./contributions</tspan></text>'
     )
 
@@ -124,27 +108,26 @@ def main() -> None:
     for col, name in month_labels(cells):
         x = GRID_X + col * PITCH
         p.append(
-            f'<text class="t" x="{x}" y="{GRID_Y - 6}" fill="{TEXT}" '
-            f'font-size="10" style="animation-delay:.15s">{name}</text>'
+            f'<text x="{x}" y="{GRID_Y - 6}" fill="{TEXT}" '
+            f'font-size="10">{name}</text>'
         )
 
     # weekday gutter
     for row, name in ((1, "Mon"), (3, "Wed"), (5, "Fri")):
         y = GRID_Y + row * PITCH + CELL - 2.5
         p.append(
-            f'<text class="t" x="{PAD_X}" y="{y:.1f}" fill="{TEXT}" '
-            f'font-size="10" style="animation-delay:.15s">{name}</text>'
+            f'<text x="{PAD_X}" y="{y:.1f}" fill="{TEXT}" '
+            f'font-size="10">{name}</text>'
         )
 
     # cells
     for c in cells:
         x = GRID_X + c["col"] * PITCH
         y = GRID_Y + c["row"] * PITCH
-        delay = max(0, c["col"] - first_active) * STEP
         p.append(
-            f'<rect class="d" x="{x}" y="{y}" width="{CELL}" height="{CELL}" '
+            f'<rect x="{x}" y="{y}" width="{CELL}" height="{CELL}" '
             f'rx="{RADIUS}" fill="{SCALE[c["level"]]}" '
-            f'style="animation-delay:{delay:.3f}s"/>'
+            f'/>'
         )
 
     # footer
@@ -161,8 +144,8 @@ def main() -> None:
     footer = "  ·  ".join(bits)
     fy = GRID_Y + 7 * PITCH + 24
     p.append(
-        f'<text class="t" x="{PAD_X}" y="{fy}" fill="{TEXT}" font-size="11" '
-        f'style="animation-delay:.55s">{esc(footer)}</text>'
+        f'<text x="{PAD_X}" y="{fy}" fill="{TEXT}" font-size="11">'
+        f'{esc(footer)}</text>'
     )
 
     p.append("</svg>")
