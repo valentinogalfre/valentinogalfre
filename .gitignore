@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+# fuentes privadas del retrato (la foto original no se publica)
+assets/source-photo.*
+assets/source-prepped.png

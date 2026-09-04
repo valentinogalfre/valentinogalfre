@@ -1,0 +1,61 @@
+name: update-profile-art
+
+# Refreshes the contribution heatmap from real data once a day.
+#
+# The minute is odd and off the hour on purpose: scheduled workflows queue
+# behind everything GitHub runs at :00, and a small fraction are dropped
+# outright. Nothing here assumes yesterday's run happened.
+
+on:
+  schedule:
+    - cron: '37 9 * * *'      # 06:37 in Córdoba (Argentina is UTC-3, no DST)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write             # and nothing else
+
+concurrency:
+  group: profile-art
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Every third-party action is pinned to a commit SHA rather than a moving
+      # tag. This repository is the most visible page on the account and the
+      # token can write to it; tj-actions/changed-files (CVE-2025-30066) hit
+      # ~23,000 repositories and the ones pinned by SHA were untouched.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1   # v7.0.1
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
+
+      - run: pip install -r scripts/requirements.txt
+
+      # Fails loudly on a bad fetch. A silent zero here would render an empty
+      # graph that the commit step below would happily publish, with every step
+      # green and no notification.
+      - name: Fetch contribution data
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/fetch_contributions.py
+
+      - name: Render heatmap
+        run: python scripts/render_heatmap.py
+
+      - name: Verify the SVG is valid and does not fail closed
+        run: python scripts/svg_lint.py contrib-heatmap.svg hero.svg
+
+      - uses: stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d # v7.2.0
+        with:
+          commit_message: 'chore: refresh contribution heatmap [skip ci]'
+          file_pattern: 'data/contributions.json contrib-heatmap.svg'
+          # Without this the bot's commits are attributed to the account owner,
+          # which would add a commit a day to the very graph this README
+          # displays. Inflating your own evidence is visible in one click.
+          commit_author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'

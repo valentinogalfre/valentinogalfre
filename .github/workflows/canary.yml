@@ -1,0 +1,111 @@
+name: canary
+
+# Independent daily check that the profile is actually intact, in its own
+# workflow rather than a second job of the generator: a failure there would
+# take the checker down with it, which is exactly when you need the checker.
+#
+# It opens an issue rather than relying on the failure email. A red badge on
+# your own repository is the notification you will actually see.
+
+on:
+  schedule:
+    - cron: '41 13 * * *'     # a few hours after update-profile-art
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write               # declaring any permissions block drops the rest to none
+
+concurrency:
+  group: canary
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1   # v7.0.1
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+
+      - run: pip install Pillow
+
+      # librsvg has no animation engine, so it renders the base state -- the
+      # same thing the VS Code preview, PDF export and OG-card generators see.
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq librsvg2-bin
+
+      - name: Data is fresh and sane
+        run: |
+          python - <<'PY'
+          import datetime as dt, json, sys
+          d = json.load(open("data/contributions.json"))
+          end = dt.date.fromisoformat(d["range"]["end"])
+          age = (dt.date.today() - end).days
+          # The committed file carries no clock (that would produce a spurious
+          # diff every day), so freshness is read off the calendar range, which
+          # advances on its own.
+          if age > 2:
+              sys.exit(f"contribution data ends {end}, {age} days ago")
+          n = len(d["days"])
+          if not 360 <= n <= 380:
+              sys.exit(f"{n} days in the calendar, expected 360-380")
+          if d["totals"]["year"] <= 0:
+              sys.exit("total contributions is zero")
+          print(f"ok: {n} days, ends {end}, {d['totals']['year']} contributions")
+          PY
+
+      - name: The artwork is actually visible without animation
+        run: |
+          python - <<'PY'
+          import subprocess, sys
+          from PIL import Image
+          BG = (13, 17, 23)
+          for name in ("hero.svg", "contrib-heatmap.svg"):
+              png = name.replace(".svg", ".png")
+              subprocess.run(["rsvg-convert", "-w", "880", "-o", png, name], check=True)
+              im = Image.open(png).convert("RGB")
+              px = list(im.getdata())
+              ink = sum(1 for p in px if sum(abs(a - b) for a, b in zip(p, BG)) > 24)
+              share = ink / len(px)
+              print(f"{name}: {share:.2%} ink")
+              if share < 0.02:
+                  sys.exit(f"{name} renders essentially blank without animation")
+          PY
+
+      - name: The files are reachable and served as SVG
+        run: |
+          set -euo pipefail
+          base="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/main"
+          for f in hero.svg contrib-heatmap.svg; do
+            read -r code type size < <(
+              curl -sSL -o /dev/null -w '%{http_code} %{content_type} %{size_download}' "$base/$f"
+            )
+            echo "$f -> $code $type $size bytes"
+            [ "$code" = "200" ] || { echo "::error::$f returned $code"; exit 1; }
+            [ "$size" -gt 1500 ] || { echo "::error::$f is only $size bytes"; exit 1; }
+          done
+
+      - name: Report a failure as an issue, once
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          open=$(gh issue list --label canary --state open --json number --jq 'length')
+          if [ "$open" != "0" ]; then
+            echo "a canary issue is already open; not filing another"
+            exit 0
+          fi
+          gh label create canary --color B60205 --description "Profile art canary" 2>/dev/null || true
+          gh issue create \
+            --title "Profile art canary failed" \
+            --label canary \
+            --body "The daily canary failed. The profile README may be showing stale or blank artwork.
+
+          Run: ${RUN_URL}
+
+          Checks, in order: contribution data freshness, ink share of the rasterised SVGs, and reachability of the raw files."
