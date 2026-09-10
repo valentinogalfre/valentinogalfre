@@ -1836,14 +1836,19 @@
       "level": 1
     },
     {
-      "count": 4,
+      "count": 24,
       "date": "2026-09-09",
-      "level": 1
+      "level": 2
+    },
+    {
+      "count": 0,
+      "date": "2026-09-10",
+      "level": 0
     }
   ],
   "private_share_pct": 88,
   "range": {
-    "end": "2026-09-09",
+    "end": "2026-09-10",
     "start": "2025-09-07"
   },
   "streak": {
@@ -1852,10 +1857,10 @@
   },
   "totals": {
     "active_days": 123,
-    "active_days_last60": 41,
+    "active_days_last60": 40,
     "best_day": 100,
-    "last60": 586,
-    "year": 2273
+    "last60": 574,
+    "year": 2293
   },
   "username": "valentinogalfre"
 }
