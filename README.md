@@ -6,8 +6,6 @@
 
 </div>
 
-Most of that green is private client work, which is why the public star count is what it is. The graph is regenerated every morning from the GitHub API by [a workflow in this repository](./.github/workflows/update-profile-art.yml), and the SVG is committed here — so nothing on this page depends on a third-party service staying up.
-
 <div align="center">
 
 <h3><code>valentino@galfredev:~$ whoami</code></h3>

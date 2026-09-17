@@ -6,8 +6,6 @@
 
 </div>
 
-La mayor parte de ese verde es trabajo privado de clientes, que es la razón del conteo público de estrellas. El gráfico se regenera cada mañana desde la API de GitHub con [un workflow de este repo](./.github/workflows/update-profile-art.yml), y el SVG está commiteado acá — así que nada de esta página depende de que un servicio de terceros siga en pie.
-
 <div align="center">
 
 <h3><code>valentino@galfredev:~$ whoami</code></h3>
