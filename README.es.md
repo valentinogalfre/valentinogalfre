@@ -2,7 +2,7 @@
 
 <h3><code>valentino@galfredev:~$ ./contributions</code></h3>
 
-<a href="https://galfredev.com"><img src="./contrib-heatmap.svg" width="880" alt="Gráfico de contribuciones de GitHub de valentinogalfre: 2.241 contribuciones en el último año, 621 en los últimos 60 días, en 122 días activos. Cerca del 88% están en repos privados de clientes. Se regenera todos los días desde la API de GitHub." /></a>
+<a href="https://galfredev.com"><img src="./contrib-heatmap.svg" width="880" alt="Gráfico de contribuciones de GitHub de valentinogalfre, regenerado todos los días." /></a>
 
 </div>
 
