@@ -2,41 +2,6 @@
   "days": [
     {
       "count": 0,
-      "date": "2025-09-21",
-      "level": 0
-    },
-    {
-      "count": 0,
-      "date": "2025-09-22",
-      "level": 0
-    },
-    {
-      "count": 0,
-      "date": "2025-09-23",
-      "level": 0
-    },
-    {
-      "count": 0,
-      "date": "2025-09-24",
-      "level": 0
-    },
-    {
-      "count": 0,
-      "date": "2025-09-25",
-      "level": 0
-    },
-    {
-      "count": 0,
-      "date": "2025-09-26",
-      "level": 0
-    },
-    {
-      "count": 0,
-      "date": "2025-09-27",
-      "level": 0
-    },
-    {
-      "count": 0,
       "date": "2025-09-28",
       "level": 0
     },
@@ -1854,23 +1819,28 @@
       "count": 0,
       "date": "2026-09-26",
       "level": 0
+    },
+    {
+      "count": 2,
+      "date": "2026-09-27",
+      "level": 1
     }
   ],
   "private_share_pct": 88,
   "range": {
-    "end": "2026-09-26",
-    "start": "2025-09-21"
+    "end": "2026-09-27",
+    "start": "2025-09-28"
   },
   "streak": {
-    "current": 24,
+    "current": 1,
     "longest": 24
   },
   "totals": {
-    "active_days": 142,
+    "active_days": 143,
     "active_days_last60": 46,
     "best_day": 171,
-    "last60": 1114,
-    "year": 2671
+    "last60": 1112,
+    "year": 2673
   },
   "username": "valentinogalfre"
 }
