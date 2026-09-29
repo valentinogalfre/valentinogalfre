@@ -1148,7 +1148,7 @@
     {
       "count": 77,
       "date": "2026-05-15",
-      "level": 2
+      "level": 3
     },
     {
       "count": 53,
@@ -1253,7 +1253,7 @@
     {
       "count": 37,
       "date": "2026-06-05",
-      "level": 1
+      "level": 2
     },
     {
       "count": 2,
@@ -1298,7 +1298,7 @@
     {
       "count": 34,
       "date": "2026-06-14",
-      "level": 1
+      "level": 2
     },
     {
       "count": 26,
@@ -1313,7 +1313,7 @@
     {
       "count": 42,
       "date": "2026-06-17",
-      "level": 1
+      "level": 2
     },
     {
       "count": 66,
@@ -1393,12 +1393,12 @@
     {
       "count": 35,
       "date": "2026-07-03",
-      "level": 1
+      "level": 2
     },
     {
       "count": 38,
       "date": "2026-07-04",
-      "level": 1
+      "level": 2
     },
     {
       "count": 2,
@@ -1468,7 +1468,7 @@
     {
       "count": 84,
       "date": "2026-07-18",
-      "level": 2
+      "level": 3
     },
     {
       "count": 9,
@@ -1643,7 +1643,7 @@
     {
       "count": 38,
       "date": "2026-08-22",
-      "level": 1
+      "level": 2
     },
     {
       "count": 7,
@@ -1783,7 +1783,7 @@
     {
       "count": 71,
       "date": "2026-09-19",
-      "level": 2
+      "level": 3
     },
     {
       "count": 9,
@@ -1821,19 +1821,24 @@
       "level": 0
     },
     {
-      "count": 127,
+      "count": 128,
       "date": "2026-09-27",
-      "level": 3
+      "level": 4
     },
     {
-      "count": 21,
+      "count": 47,
       "date": "2026-09-28",
-      "level": 1
+      "level": 2
+    },
+    {
+      "count": 0,
+      "date": "2026-09-29",
+      "level": 0
     }
   ],
   "private_share_pct": 88,
   "range": {
-    "end": "2026-09-28",
+    "end": "2026-09-29",
     "start": "2025-09-28"
   },
   "streak": {
@@ -1842,10 +1847,10 @@
   },
   "totals": {
     "active_days": 144,
-    "active_days_last60": 47,
+    "active_days_last60": 46,
     "best_day": 172,
-    "last60": 1261,
-    "year": 2822
+    "last60": 1281,
+    "year": 2849
   },
   "username": "valentinogalfre"
 }
