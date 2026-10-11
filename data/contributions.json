@@ -2,41 +2,6 @@
   "days": [
     {
       "count": 0,
-      "date": "2025-10-05",
-      "level": 0
-    },
-    {
-      "count": 0,
-      "date": "2025-10-06",
-      "level": 0
-    },
-    {
-      "count": 0,
-      "date": "2025-10-07",
-      "level": 0
-    },
-    {
-      "count": 0,
-      "date": "2025-10-08",
-      "level": 0
-    },
-    {
-      "count": 0,
-      "date": "2025-10-09",
-      "level": 0
-    },
-    {
-      "count": 0,
-      "date": "2025-10-10",
-      "level": 0
-    },
-    {
-      "count": 0,
-      "date": "2025-10-11",
-      "level": 0
-    },
-    {
-      "count": 0,
       "date": "2025-10-12",
       "level": 0
     },
@@ -1283,7 +1248,7 @@
     {
       "count": 66,
       "date": "2026-06-18",
-      "level": 2
+      "level": 1
     },
     {
       "count": 59,
@@ -1743,12 +1708,12 @@
     {
       "count": 135,
       "date": "2026-09-18",
-      "level": 3
+      "level": 2
     },
     {
       "count": 71,
       "date": "2026-09-19",
-      "level": 2
+      "level": 1
     },
     {
       "count": 9,
@@ -1791,29 +1756,29 @@
       "level": 2
     },
     {
-      "count": 55,
+      "count": 105,
       "date": "2026-09-28",
-      "level": 1
+      "level": 2
     },
     {
-      "count": 16,
+      "count": 164,
       "date": "2026-09-29",
-      "level": 1
+      "level": 3
     },
     {
-      "count": 256,
+      "count": 303,
       "date": "2026-09-30",
       "level": 4
     },
     {
-      "count": 97,
+      "count": 220,
       "date": "2026-10-01",
-      "level": 2
+      "level": 3
     },
     {
-      "count": 10,
+      "count": 146,
       "date": "2026-10-02",
-      "level": 1
+      "level": 2
     },
     {
       "count": 0,
@@ -1826,14 +1791,14 @@
       "level": 0
     },
     {
-      "count": 36,
+      "count": 154,
       "date": "2026-10-05",
-      "level": 1
+      "level": 3
     },
     {
-      "count": 0,
+      "count": 20,
       "date": "2026-10-06",
-      "level": 0
+      "level": 1
     },
     {
       "count": 9,
@@ -1851,26 +1816,31 @@
       "level": 1
     },
     {
-      "count": 3,
+      "count": 28,
       "date": "2026-10-10",
+      "level": 1
+    },
+    {
+      "count": 23,
+      "date": "2026-10-11",
       "level": 1
     }
   ],
   "private_share_pct": 88,
   "range": {
-    "end": "2026-10-10",
-    "start": "2025-10-05"
+    "end": "2026-10-11",
+    "start": "2025-10-12"
   },
   "streak": {
-    "current": 2,
+    "current": 3,
     "longest": 24
   },
   "totals": {
-    "active_days": 151,
-    "active_days_last60": 47,
-    "best_day": 256,
-    "last60": 1677,
-    "year": 3287
+    "active_days": 153,
+    "active_days_last60": 48,
+    "best_day": 303,
+    "last60": 2342,
+    "year": 3977
   },
   "username": "valentinogalfre"
 }
