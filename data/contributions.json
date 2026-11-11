@@ -1834,22 +1834,27 @@
       "count": 0,
       "date": "2026-11-10",
       "level": 0
+    },
+    {
+      "count": 0,
+      "date": "2026-11-11",
+      "level": 0
     }
   ],
   "private_share_pct": 88,
   "range": {
-    "end": "2026-11-10",
+    "end": "2026-11-11",
     "start": "2025-11-09"
   },
   "streak": {
-    "current": 1,
+    "current": 0,
     "longest": 24
   },
   "totals": {
     "active_days": 180,
-    "active_days_last60": 53,
+    "active_days_last60": 52,
     "best_day": 303,
-    "last60": 3584,
+    "last60": 3426,
     "year": 5630
   },
   "username": "valentinogalfre"
