@@ -25,7 +25,7 @@
 - **Construyo** — Aplicaciones web, automatizaciones y bots de WhatsApp para clientes reales
 - **Stack** — TypeScript · Node · Python · Next.js · Postgres · n8n · Flutter · llama.cpp
 - **Foco** — IA local, pipelines OCR→LLM, integración con CRM y APIs de terceros
-- **Shippeado** — [cotejo](https://github.com/valentinogalfre/cotejo) (conciliador de facturas on-device) · [Vector](https://github.com/valentinogalfre/vector-galfredev-bot) (agente de ventas por WhatsApp, en producción) · [Pipeline de Canva](https://github.com/valentinogalfre/automatizacion-notas-canva) (automatización de contenido)
+- **Shippeado** — [galfredev OS](https://github.com/valentinogalfre/GalfreDev-Os-Proyector) (sistema open source para proyectores, con juegos que se manejan desde el celular) · [cotejo](https://github.com/valentinogalfre/cotejo) (conciliador de facturas on-device) · [Vector](https://github.com/valentinogalfre/vector-galfredev-bot) (agente de ventas por WhatsApp, en producción) · [Pipeline de Canva](https://github.com/valentinogalfre/automatizacion-notas-canva) (automatización de contenido)
 - **Disponible para** — Trabajo freelance y remoto
 
 </details>
