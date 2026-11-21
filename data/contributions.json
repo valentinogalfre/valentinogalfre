@@ -1671,37 +1671,37 @@
       "level": 1
     },
     {
-      "count": 5,
+      "count": 7,
       "date": "2026-10-16",
       "level": 1
     },
     {
-      "count": 90,
+      "count": 91,
       "date": "2026-10-17",
       "level": 2
     },
     {
-      "count": 25,
+      "count": 27,
       "date": "2026-10-18",
       "level": 1
     },
     {
-      "count": 48,
+      "count": 53,
       "date": "2026-10-19",
       "level": 1
     },
     {
-      "count": 54,
+      "count": 58,
       "date": "2026-10-20",
       "level": 1
     },
     {
-      "count": 59,
+      "count": 61,
       "date": "2026-10-21",
       "level": 1
     },
     {
-      "count": 37,
+      "count": 39,
       "date": "2026-10-22",
       "level": 1
     },
@@ -1711,12 +1711,12 @@
       "level": 1
     },
     {
-      "count": 20,
+      "count": 21,
       "date": "2026-10-24",
       "level": 1
     },
     {
-      "count": 7,
+      "count": 8,
       "date": "2026-10-25",
       "level": 1
     },
@@ -1726,7 +1726,7 @@
       "level": 1
     },
     {
-      "count": 104,
+      "count": 109,
       "date": "2026-10-27",
       "level": 2
     },
@@ -1826,17 +1826,17 @@
       "level": 1
     },
     {
-      "count": 74,
+      "count": 77,
       "date": "2026-11-16",
       "level": 2
     },
     {
-      "count": 49,
+      "count": 50,
       "date": "2026-11-17",
       "level": 1
     },
     {
-      "count": 16,
+      "count": 18,
       "date": "2026-11-18",
       "level": 1
     },
@@ -1846,26 +1846,31 @@
       "level": 1
     },
     {
-      "count": 27,
+      "count": 146,
       "date": "2026-11-20",
+      "level": 3
+    },
+    {
+      "count": 37,
+      "date": "2026-11-21",
       "level": 1
     }
   ],
   "private_share_pct": 88,
   "range": {
-    "end": "2026-11-20",
+    "end": "2026-11-21",
     "start": "2025-11-16"
   },
   "streak": {
-    "current": 6,
+    "current": 7,
     "longest": 24
   },
   "totals": {
-    "active_days": 190,
+    "active_days": 191,
     "active_days_last60": 53,
     "best_day": 303,
-    "last60": 3356,
-    "year": 5980
+    "last60": 3531,
+    "year": 6167
   },
   "username": "valentinogalfre"
 }
